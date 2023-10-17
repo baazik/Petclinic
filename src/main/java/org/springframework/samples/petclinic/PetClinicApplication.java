@@ -36,4 +36,3 @@ public class PetClinicApplication {
 
 }
 
-// testovací commitasdfasdf
