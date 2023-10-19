@@ -16,7 +16,7 @@ public class Donate extends BaseEntity {
 	@NotBlank
 	private String donatorName;
 
-	@Column(name = "date")
+	@Column(name = "donate_date")
 	@NotBlank
 	private LocalDate date;
 
