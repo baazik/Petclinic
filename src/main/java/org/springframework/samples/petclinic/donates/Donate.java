@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.donator;
+package org.springframework.samples.petclinic.donates;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
