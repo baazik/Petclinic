@@ -31,8 +31,8 @@ import jakarta.validation.constraints.NotBlank;
  * @author Ken Krebs
  * @author Dave Syer
  */
-@Entity
-@Table(name = "visits")
+@Entity // trida bude mapovana na db tabulku
+@Table(name = "visits") // tabulka se bude jmenovat vistits
 public class Visit extends BaseEntity {
 
 	@Column(name = "visit_date")

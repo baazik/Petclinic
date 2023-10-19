@@ -40,21 +40,25 @@ import jakarta.persistence.Table;
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
-@Entity
-@Table(name = "pets")
+@Entity // oznacuje tridu jako entitu, coz znamena, ze trida bude mapovana na databazovou tabulku
+@Table(name = "pets") // urcuje jmeno tabulky, do ktere budou instance teto entity ukladany
 public class Pet extends NamedEntity {
 
 	@Column(name = "birth_date")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd") // definuje format pro birthDate
 	private LocalDate birthDate;
 
-	@ManyToOne
+	@ManyToOne // oznacuje type jako relaci k jine entite, v tomto pripade entite PetType; rika, ze v db bude sloupec type_id, ktery odkazuje na id v PetType
 	@JoinColumn(name = "type_id")
 	private PetType type;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // zvire muze mit vice navstev
 	@JoinColumn(name = "pet_id")
 	@OrderBy("visit_date ASC")
+	/*
+	set je rozhrani, ktere reprezentuje kolekci unikatnich hodnot, v tomto pripade navstev
+	linkedhashset umoznuje zachovani poradi
+	 */
 	private Set<Visit> visits = new LinkedHashSet<>();
 
 	public void setBirthDate(LocalDate birthDate) {

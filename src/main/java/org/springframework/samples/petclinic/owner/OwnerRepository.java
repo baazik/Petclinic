@@ -35,11 +35,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Sam Brannen
  * @author Michael Isvy
  */
+// repository znamena, ze bude spravovat komunikaci s DB
+// rozsiruje rozhrani repository, coz je soucast Spring Data JPA
+// anotace definije typy entit a prim. klice s nimiz rozhrani bude pracovat
 public interface OwnerRepository extends Repository<Owner, Integer> {
 
 	/**
 	 * Retrieve all {@link PetType}s from the data store.
 	 * @return a Collection of {@link PetType}s.
+	 */
+	/*
+	Vrati vsechny tpy zvirat jako seznam
 	 */
 	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
 	@Transactional(readOnly = true)
@@ -52,7 +58,9 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none
 	 * found)
 	 */
-
+	/*
+	Vrati vyhledane owner dle prijmeni
+	 */
 	@Query("SELECT DISTINCT owner FROM Owner owner left join  owner.pets WHERE owner.lastName LIKE :lastName% ")
 	@Transactional(readOnly = true)
 	Page<Owner> findByLastName(@Param("lastName") String lastName, Pageable pageable);
@@ -62,6 +70,9 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @param id the id to search for
 	 * @return the {@link Owner} if found
 	 */
+	/*
+	Vyhledava ownery dle jejich ID
+	 */
 	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
 	@Transactional(readOnly = true)
 	Owner findById(@Param("id") Integer id);
@@ -70,11 +81,18 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * Save an {@link Owner} to the data store, either inserting or updating it.
 	 * @param owner the {@link Owner} to save
 	 */
+	/*
+	uklada ownera do db
+	funguje to diky tomu, ze trida Owner je jako entita a ma definovano, co se ma ukladat kam
+	 */
 	void save(Owner owner);
 
 	/**
 	 * Returns all the owners from data store
 	 **/
+	/*
+	vrati vsechny ownery v DB
+	 */
 	@Query("SELECT owner FROM Owner owner")
 	@Transactional(readOnly = true)
 	Page<Owner> findAll(Pageable pageable);

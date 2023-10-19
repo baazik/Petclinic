@@ -24,6 +24,10 @@ import org.springframework.samples.petclinic.vet.Vet;
 
 public class PetClinicRuntimeHints implements RuntimeHintsRegistrar {
 
+	/**
+	 * Runtimehints allows the application to use easier ways to configurate certain things in the application.
+	 * Such as DB, work with files etc.
+	 */
 	@Override
 	public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
 		hints.resources().registerPattern("db/*"); // https://github.com/spring-projects/spring-boot/issues/32654

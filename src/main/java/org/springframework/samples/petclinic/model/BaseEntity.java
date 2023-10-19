@@ -29,7 +29,8 @@ import jakarta.persistence.MappedSuperclass;
  * @author Ken Krebs
  * @author Juergen Hoeller
  */
-@MappedSuperclass
+@MappedSuperclass // Anotace slouzi k oznaceni tridy jako zakladni tridy pro mapovani datoveho modelu.
+// To znanema, ze obsahuje nejake atributy - v tomto pripade id - kterou jsou pouzity v dcerinych tridach.
 public class BaseEntity implements Serializable {
 
 	@Id

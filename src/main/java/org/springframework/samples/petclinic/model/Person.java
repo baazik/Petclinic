@@ -26,9 +26,12 @@ import jakarta.validation.constraints.NotBlank;
  */
 @MappedSuperclass
 public class Person extends BaseEntity {
-
-	@Column(name = "first_name")
-	@NotBlank
+	/*
+	anotace Column oznacuje, ze String firstName se bude mapovat do DB na sloupec first_name
+	jinymi slovy hodnoty promenne se budou ukladat do tohoto sloupce v databazi
+	 */
+	@Column(name = "first_name") //
+	@NotBlank // anotace NotBlank slouzi k tomu, ze pole nesmi byt prazdne - aplikace by prazdny vstup nepovolila
 	private String firstName;
 
 	@Column(name = "last_name")

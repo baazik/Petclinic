@@ -56,12 +56,15 @@ public class Owner extends Person {
 
 	@Column(name = "telephone")
 	@NotBlank
-	@Digits(fraction = 0, integer = 10)
+	@Digits(fraction = 0, integer = 10) // zajistuje, ze telephone musi byt celociselne a max 10 cislic
 	private String telephone;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "owner_id")
-	@OrderBy("name")
+	/*
+	seznam List zvirat, ktere ma owner
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // owner muze mit vice zvirat a ty jsou ulozena v db
+	@JoinColumn(name = "owner_id") // urcuje sloupec v db, ktery spojuje zvirata s ownerem
+	@OrderBy("name") // zvirata jsou serazena podle jmena pri nacitani z db
 	private List<Pet> pets = new ArrayList<>();
 
 	public String getAddress() {
@@ -92,6 +95,10 @@ public class Owner extends Person {
 		return this.pets;
 	}
 
+	/*
+	prida zvire do seznamu zvirat vlastnene ownerem
+	pokud isNew vrati true (= zvire je nove a nema zatim id), bude pridano do seznamu
+	 */
 	public void addPet(Pet pet) {
 		if (pet.isNew()) {
 			getPets().add(pet);
@@ -103,6 +110,9 @@ public class Owner extends Person {
 	 * @param name to test
 	 * @return a pet if pet name is already in use
 	 */
+	/*
+	vrati zvire na zaklade jmena
+	 */
 	public Pet getPet(String name) {
 		return getPet(name, false);
 	}
@@ -111,6 +121,9 @@ public class Owner extends Person {
 	 * Return the Pet with the given id, or null if none found for this Owner.
 	 * @param id to test
 	 * @return a pet if pet id is already in use
+	 */
+	/*
+	vrati zvire na zaklade id, nebo null, pokud zvire pod timto id nenajde
 	 */
 	public Pet getPet(Integer id) {
 		for (Pet pet : getPets()) {
@@ -129,6 +142,9 @@ public class Owner extends Person {
 	 * @param name to test
 	 * @return a pet if pet name is already in use
 	 */
+	/*
+	vrati zvire na zaklade jmena, nebo null, pokud vlastnik zadne zvire s timto jmenem nema
+	 */
 	public Pet getPet(String name, boolean ignoreNew) {
 		name = name.toLowerCase();
 		for (Pet pet : getPets()) {
@@ -142,6 +158,10 @@ public class Owner extends Person {
 		return null;
 	}
 
+	/*
+	Textova reprezentace bude vypadat nejak takto:
+	Owner[id=1, new=false, lastName=Doe, firstName=John, address=123 Main Street, city=Springfield, telephone=555-1234]
+	 */
 	@Override
 	public String toString() {
 		return new ToStringCreator(this).append("id", this.getId())
@@ -159,8 +179,12 @@ public class Owner extends Person {
 	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
 	 * @param visit the visit to add, must not be {@literal null}.
 	 */
+	/*
+	prida navstevu (Visit) k urcitemu zvireti; nejprve ziska id zvirete a prida k nemu onu navstevu
+	 */
 	public void addVisit(Integer petId, Visit visit) {
 
+		// toto slouzi k overeni, ze petId a visit nesmi byt null
 		Assert.notNull(petId, "Pet identifier must not be null!");
 		Assert.notNull(visit, "Visit must not be null!");
 
@@ -168,7 +192,9 @@ public class Owner extends Person {
 
 		Assert.notNull(pet, "Invalid Pet identifier!");
 
+		// zde se prida zvireti navsteva
 		pet.addVisit(visit);
 	}
+
 
 }

@@ -27,6 +27,7 @@ import org.springframework.context.annotation.ImportRuntimeHints;
  *
  */
 @SpringBootApplication
+// Implementing of hints
 @ImportRuntimeHints(PetClinicRuntimeHints.class)
 public class PetClinicApplication {
 
