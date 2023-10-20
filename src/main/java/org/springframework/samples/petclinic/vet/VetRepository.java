@@ -41,9 +41,9 @@ public interface VetRepository extends Repository<Vet, Integer> {
 	 * Retrieve all <code>Vet</code>s from the data store.
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
-	@Transactional(readOnly = true)
-	@Cacheable("vets")
-	Collection<Vet> findAll() throws DataAccessException;
+	@Transactional(readOnly = true) // oznacuje metodu jako transakci = bude provadet operace s db v ramci jedne transakce
+	@Cacheable("vets") // uklada vysledek do cache (urychluje opakovane dotazy)
+	Collection<Vet> findAll() throws DataAccessException; // vrati vsechny veterinare v DB
 
 	/**
 	 * Retrieve all <code>Vet</code>s from data store in Pages
@@ -53,6 +53,6 @@ public interface VetRepository extends Repository<Vet, Integer> {
 	 */
 	@Transactional(readOnly = true)
 	@Cacheable("vets")
-	Page<Vet> findAll(Pageable pageable) throws DataAccessException;
+	Page<Vet> findAll(Pageable pageable) throws DataAccessException; // vraci pouze jednu stranku vysledku, jinak podobne predchozi metode
 
 }

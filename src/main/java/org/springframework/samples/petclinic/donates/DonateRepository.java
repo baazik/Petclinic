@@ -28,5 +28,4 @@ public interface DonateRepository extends Repository<Donate, Integer>  {
 	Page<Donate> findAll(Pageable pageable) throws DataAccessException;
 
 
-
 }

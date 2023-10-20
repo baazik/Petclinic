@@ -50,6 +50,9 @@ public class Vet extends Person {
 			inverseJoinColumns = @JoinColumn(name = "specialty_id"))
 	private Set<Specialty> specialties;
 
+	/*
+	Vraci hashset specialit, tedy zamereni.
+	 */
 	protected Set<Specialty> getSpecialtiesInternal() {
 		if (this.specialties == null) {
 			this.specialties = new HashSet<>();
@@ -61,17 +64,32 @@ public class Vet extends Person {
 		this.specialties = specialties;
 	}
 
+	/*
+	Anotace @XmlElement rika, aby metoda a jeji navratova hodnota byla zahrnuta do vysledneho XML
+	 */
 	@XmlElement
 	public List<Specialty> getSpecialties() {
 		List<Specialty> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
+		/*
+		tridi vzestupne speciality podle name s ohledem na velikost pismen
+		 */
 		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
+		/*
+		vytvori nemenny pohled na seznam specialit, tedy ze nelze menit obsah seznamu po jeho vraceni
+		 */
 		return Collections.unmodifiableList(sortedSpecs);
 	}
 
+	/*
+	vraci pocet specialit
+	 */
 	public int getNrOfSpecialties() {
 		return getSpecialtiesInternal().size();
 	}
 
+	/*
+	prida novou specialitu do seznamu
+	 */
 	public void addSpecialty(Specialty specialty) {
 		getSpecialtiesInternal().add(specialty);
 	}

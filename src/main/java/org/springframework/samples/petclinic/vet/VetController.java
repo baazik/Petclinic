@@ -41,31 +41,47 @@ class VetController {
 		this.vetRepository = clinicService;
 	}
 
+	/*
+	get mapping pro vets.html
+	výchozí hodnota page = 1
+	Model použijeme pro přidání parametrů do html šablony
+	vyvtori se instance tridy Vets vets
+	zavola se metoda vets.getVetlist, tedy arraylist, do ktereho se prida
+	 */
 	@GetMapping("/vets.html")
 	public String showVetList(@RequestParam(defaultValue = "1") int page, Model model) {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects so it is simpler for Object-Xml mapping
 		Vets vets = new Vets();
-		Page<Vet> paginated = findPaginated(page);
-		vets.getVetList().addAll(paginated.toList());
-		return addPaginationModel(page, paginated, model);
+		Page<Vet> paginated = findPaginated(page); // vrati vysledek na jedne strance z db veterinaru
+		vets.getVetList().addAll(paginated.toList()); // vytvori arraylist, do ktereho se prida predchozi vysledek
+		return addPaginationModel(page, paginated, model); // zavola se metoda viz nize, ktera prida data do modelu
 	}
 
 	private String addPaginationModel(int page, Page<Vet> paginated, Model model) {
-		List<Vet> listVets = paginated.getContent();
+		List<Vet> listVets = paginated.getContent(); // vytvori seznam veterinaru na aktualni strance z objektu paginated
+		/*
+		ulozeni promennych do promennych pro html sablonu
+		 */
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listVets", listVets);
-		return "vets/vetList";
+		return "vets/vetList"; // vraci vetList.html
 	}
 
+	/*
+	vraci stranku veterinaru na zaklade aktualni stranky
+	 */
 	private Page<Vet> findPaginated(int page) {
 		int pageSize = 5;
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
 		return vetRepository.findAll(pageable);
 	}
 
+	/*
+	nevraci html stranku, nybrz data ve formatu json
+	 */
 	@GetMapping({ "/vets" })
 	public @ResponseBody Vets showResourcesVetList() {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet

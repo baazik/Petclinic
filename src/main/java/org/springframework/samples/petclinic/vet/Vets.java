@@ -32,6 +32,9 @@ public class Vets {
 
 	private List<Vet> vets;
 
+	/*
+	Tato anotace rika, ze ma dany vystup zaradit do XML
+	 */
 	@XmlElement
 	public List<Vet> getVetList() {
 		if (vets == null) {
