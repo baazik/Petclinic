@@ -20,11 +20,11 @@ public interface DonateRepository extends Repository<Donate, Integer>  {
 	void save(Donate donate);
 
 	@Transactional(readOnly = true)
-	@Cacheable("donates")
+	//@Cacheable("donates")
 	Collection<Donate> findAll() throws DataAccessException;
 
 	@Transactional(readOnly = true)
-	@Cacheable("donates")
+	//@Cacheable("donates")
 	Page<Donate> findAll(Pageable pageable) throws DataAccessException;
 
 

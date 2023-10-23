@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class Donate extends BaseEntity {
 	private String donatorName;
 
 	@Column(name = "donate_date")
-	@NotBlank
+	@NotNull
 	private LocalDate date;
 
 	@Column(name = "amount")

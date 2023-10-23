@@ -4,15 +4,15 @@
 
 <body>
 
-<h2>Owners</h2>
+<h2>Donates</h2>
 
 <table id="donates" class="table table-striped">
   <thead>
   <tr>
-    <th style="width: 150px;">Donator's name</th>
+    <th style="width: 200px;">Donator's name</th>
     <th style="width: 200px;">Date of donation</th>
-    <th>Amount (EUR)</th>
-    <th style="width: 120px">Message from the donator</th>
+    <th style="width: 150px;">Amount (EUR)</th>
+    <th style="width: 500px">Message from the donator</th>
   </tr>
   </thead>
   <tbody>
@@ -21,7 +21,6 @@
     <td th:text="${donate.date}"/>
     <td th:text="${donate.amount}"/>
     <td th:text="${donate.message}"/>
-    <!--<td><span th:text="${#strings.listJoin(owner.pets, ', ')}"/></td>-->
   </tr>
   </tbody>
 </table>
@@ -54,6 +53,16 @@
       <span th:unless="${currentPage < totalPages}" title="Last" class="fa fa-step-forward"></span>
     </span>
 </div>
+
+<form th:object="${donate}" th:action="@{/donates.html}" method="post">
+  <input type="text" th:field="*{donatorName}" placeholder="Donator Name"/>
+  <input type="date" th:field="*{date}" placeholder="Donation Date"/>
+  <input type="text" th:field="*{amount}" placeholder="Amount"/>
+  <input type="text" th:field="*{message}" placeholder="Message"/>
+  <button type="submit">Submit</button>
+</form>
+
+
 </body>
 </html>
 
