@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.donates;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.springframework.samples.petclinic.vet.Vet;
 
 import java.util.ArrayList;
 import java.util.List;

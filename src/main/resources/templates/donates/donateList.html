@@ -28,27 +28,27 @@
   <span>Pages:</span>
   <span>[</span>
   <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/donates?page=' + ${i}}">[[${i}]]</a>
+      <a th:if="${currentPage != i}" th:href="@{'/donates.html?page=' + ${i}}">[[${i}]]</a>
       <span th:unless="${currentPage != i}">[[${i}]]</span>
     </span>
   <span>]&nbsp;</span>
   <span>
-      <a th:if="${currentPage > 1}" th:href="@{'/donates?page=1'}" title="First"
+      <a th:if="${currentPage > 1}" th:href="@{'/donates.html?page=1'}" title="First"
          class="fa fa-fast-backward"></a>
       <span th:unless="${currentPage > 1}" title="First" class="fa fa-fast-backward"></span>
     </span>
   <span>
-      <a th:if="${currentPage > 1}" th:href="@{'/donates?page=__${currentPage - 1}__'}" title="Previous"
+      <a th:if="${currentPage > 1}" th:href="@{'/donates.html?page=__${currentPage - 1}__'}" title="Previous"
          class="fa fa-step-backward"></a>
       <span th:unless="${currentPage > 1}" title="Previous" class="fa fa-step-backward"></span>
     </span>
   <span>
-      <a th:if="${currentPage < totalPages}" th:href="@{'/donates?page=__${currentPage + 1}__'}" title="Next"
+      <a th:if="${currentPage < totalPages}" th:href="@{'/donates.html?page=__${currentPage + 1}__'}" title="Next"
          class="fa fa-step-forward"></a>
       <span th:unless="${currentPage < totalPages}" title="Next" class="fa fa-step-forward"></span>
     </span>
   <span>
-      <a th:if="${currentPage < totalPages}" th:href="@{'/donates?page=__${totalPages}__'}" title="Last"
+      <a th:if="${currentPage < totalPages}" th:href="@{'/donates.html?page=__${totalPages}__'}" title="Last"
          class="fa fa-fast-forward"></a>
       <span th:unless="${currentPage < totalPages}" title="Last" class="fa fa-step-forward"></span>
     </span>
@@ -59,7 +59,7 @@
   <input type="date" th:field="*{date}" placeholder="Donation Date"/>
   <input type="text" th:field="*{amount}" placeholder="Amount"/>
   <input type="text" th:field="*{message}" placeholder="Message"/>
-  <button type="submit">Submit</button>
+  <button class="btn btn-primary" type="submit">Add Donate</button>
 </form>
 
 

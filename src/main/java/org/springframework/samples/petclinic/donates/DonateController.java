@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 
 import java.util.List;
 
@@ -20,9 +22,11 @@ import java.util.List;
 public class DonateController {
 
 	private final DonateRepository donateRepository;
+	private final CacheManager cacheManager;
 
-	public DonateController(DonateRepository clinicService) {
+	public DonateController(DonateRepository clinicService, CacheManager cacheManager) {
 		this.donateRepository = clinicService;
+		this.cacheManager = cacheManager;
 	}
 
 	@PostMapping("/donates.html")
@@ -32,6 +36,13 @@ public class DonateController {
 			return "error.html";
 		}
 		this.donateRepository.save(donate);
+
+		// vycisteni cache po ulozeni novych dat do db, aby byly znovu nacteny do cache
+		Cache cache = cacheManager.getCache("donates");
+		if (cache != null) {
+			cache.clear();
+		}
+
 		return "redirect:/donates.html";
 	}
 
@@ -46,8 +57,9 @@ public class DonateController {
 	public String showDonateList(@RequestParam(defaultValue = "1") int page, Model model) {
 		// Here we are returning an object of type 'Donates' rather than a collection of Donate
 		// objects so it is simpler for Object-Xml mapping
+
 		Donates donates = new Donates();
-		Page<Donate> paginated = findPaginated(page); // vrati vysledek na jedne strance z db veterinaru
+		Page<Donate> paginated = findPaginated(page); // vrati vysledek na jedne strance z db donates
 		donates.getDonateList().addAll(paginated.toList()); // vytvori arraylist, do ktereho se prida predchozi vysledek
 		return addPaginationModel(page, paginated, model); // zavola se metoda viz nize, ktera prida data do modelu
 	}
@@ -66,7 +78,7 @@ public class DonateController {
 	}
 
 	/*
-	vraci stranku veterinaru na zaklade aktualni stranky
+	vraci stranku donates na zaklade aktualni stranky
 	 */
 	private Page<Donate> findPaginated(int page) {
 		int pageSize = 5;
@@ -80,7 +92,7 @@ public class DonateController {
 	@GetMapping({ "/donates" })
 	public @ResponseBody
 	Donates showResourcesDonateList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// Here we are returning an object of type 'Donates' rather than a collection of Donate
 		// objects so it is simpler for JSon/Object mapping
 		Donates donates = new Donates();
 		donates.getDonateList().addAll(this.donateRepository.findAll());
