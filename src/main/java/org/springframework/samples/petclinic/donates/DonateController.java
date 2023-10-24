@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class DonateController {
 
 	private final DonateRepository donateRepository;
 	private final CacheManager cacheManager;
+	private static final Logger logger = LoggerFactory.getLogger(DonateController.class);
 
 	public DonateController(DonateRepository clinicService, CacheManager cacheManager) {
 		this.donateRepository = clinicService;
@@ -36,6 +39,7 @@ public class DonateController {
 			return "error.html";
 		}
 		this.donateRepository.save(donate);
+		logger.info("New donated added: donator={}, date={}, amount={}, message={}", donate.getDonatorName(), donate.getDate(), donate.getAmount(), donate.getMessage());
 
 		// vycisteni cache po ulozeni novych dat do db, aby byly znovu nacteny do cache
 		Cache cache = cacheManager.getCache("donates");
