@@ -36,15 +36,17 @@ public class DonateController {
 	public String processCreationForm(@Valid Donate donate, BindingResult result) {
 		if (result.hasErrors()) {
 			// Zpracování chybného formuláře, např. přesměrování na stránku s chybou
+			logger.error("Error with processing the form.");
 			return "error.html";
 		}
 		this.donateRepository.save(donate);
-		logger.info("New donated added: donator={}, date={}, amount={}, message={}", donate.getDonatorName(), donate.getDate(), donate.getAmount(), donate.getMessage());
+		logger.info("New donate added: donator={}, date={}, amount={}, message={}", donate.getDonatorName(), donate.getDate(), donate.getAmount(), donate.getMessage());
 
 		// vycisteni cache po ulozeni novych dat do db, aby byly znovu nacteny do cache
 		Cache cache = cacheManager.getCache("donates");
 		if (cache != null) {
 			cache.clear();
+			logger.info("Cleaning cache - donates.");
 		}
 
 		return "redirect:/donates.html";
@@ -78,7 +80,9 @@ public class DonateController {
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listDonates", listDonates);
+		logger.info("Page donateList.html was visited.");
 		return "donates/donateList"; // vraci donateList.html
+
 	}
 
 	/*
@@ -87,6 +91,7 @@ public class DonateController {
 	private Page<Donate> findPaginated(int page) {
 		int pageSize = 5;
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
+		logger.info("Finding donates in database.");
 		return donateRepository.findAll(pageable);
 	}
 
