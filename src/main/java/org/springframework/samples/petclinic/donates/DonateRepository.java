@@ -4,19 +4,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 
 
-public interface DonateRepository extends Repository<Donate, Integer>  {
-
-	/*
-	ukladani donatu do db
-	 */
-	void save(Donate donate);
+public interface DonateRepository extends CrudRepository<Donate, Integer>{
 
 	@Transactional(readOnly = true)
 	@Cacheable("donates")

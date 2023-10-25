@@ -21,6 +21,11 @@
     <td th:text="${donate.date}"/>
     <td th:text="${donate.amount}"/>
     <td th:text="${donate.message}"/>
+    <td>
+    <form th:action="@{'/delete/' + ${donate.id}}" method="post">
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+    </td>
   </tr>
   </tbody>
 </table>

@@ -9,10 +9,7 @@ import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.slf4j.Logger;
@@ -68,6 +65,19 @@ public class DonateController {
 		Page<Donate> paginated = findPaginated(page); // vrati vysledek na jedne strance z db donates
 		donates.getDonateList().addAll(paginated.toList()); // vytvori arraylist, do ktereho se prida predchozi vysledek
 		return addPaginationModel(page, paginated, model); // zavola se metoda viz nize, ktera prida data do modelu
+	}
+
+	@PostMapping("/delete/{donateId}")
+	public String deleteDonate(@PathVariable Integer donateId) {
+		donateRepository.deleteById(donateId);
+
+		Cache cache = cacheManager.getCache("donates");
+		if (cache != null) {
+			cache.clear();
+			logger.info("Cleaning cache - donates.");
+		}
+
+		return "redirect:/donates.html";
 	}
 
 	private String addPaginationModel(int page, Page<Donate> paginated, Model model) {
