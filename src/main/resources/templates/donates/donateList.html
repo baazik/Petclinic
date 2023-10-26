@@ -13,12 +13,13 @@
     <th style="width: 200px;">Date of donation</th>
     <th style="width: 150px;">Amount (EUR)</th>
     <th style="width: 500px">Message from the donator</th>
+    <th style="width: 150px"></th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="donate : ${listDonates}">
     <td th:text="${donate.donatorName}"/></td>
-    <td th:text="${donate.date}"/>
+    <td th:text="${#temporals.format(donate.date, 'd. MM. yyyy')}"></td>
     <td th:text="${donate.amount}"/>
     <td th:text="${donate.message}"/>
     <td>

@@ -4,8 +4,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 @Controller
@@ -67,21 +64,8 @@ public class DonateController {
 		return addPaginationModel(page, paginated, model); // zavola se metoda viz nize, ktera prida data do modelu
 	}
 
-	@PostMapping("/delete/{donateId}")
-	public String deleteDonate(@PathVariable Integer donateId) {
-		donateRepository.deleteById(donateId);
-
-		Cache cache = cacheManager.getCache("donates");
-		if (cache != null) {
-			cache.clear();
-			logger.info("Cleaning cache - donates.");
-		}
-
-		return "redirect:/donates.html";
-	}
-
 	private String addPaginationModel(int page, Page<Donate> paginated, Model model) {
-		List<Donate> listDonates = paginated.getContent(); // vytvori seznam veterinaru na aktualni strance z objektu paginated
+		List<Donate> listDonates = paginated.getContent(); // vytvori seznam donatu na aktualni strance z objektu paginated
 		/*
 		ulozeni promennych do promennych pro html sablonu
 		 */
@@ -90,7 +74,7 @@ public class DonateController {
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listDonates", listDonates);
-		logger.info("Page donateList.html was visited.");
+		logger.info("Adding data to model for view: donate, currentPage, totalPages, totalItems, listDonate");
 		return "donates/donateList"; // vraci donateList.html
 
 	}
@@ -103,6 +87,23 @@ public class DonateController {
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
 		logger.info("Finding donates in database.");
 		return donateRepository.findAll(pageable);
+	}
+
+	/*
+	Mazani donatu z DB
+	 */
+	@PostMapping("/delete/{donateId}")
+	public String deleteDonate(@PathVariable Integer donateId) {
+		donateRepository.deleteById(donateId);
+		logger.info("Deleting donate with id {} from database.",donateId);
+
+		Cache cache = cacheManager.getCache("donates");
+		if (cache != null) {
+			cache.clear();
+			logger.info("Cleaning cache - donates.");
+		}
+
+		return "redirect:/donates.html";
 	}
 
 	/*

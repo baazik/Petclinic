@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.samples.petclinic.model.BaseEntity;
-
 import java.time.LocalDate;
 
 @Entity

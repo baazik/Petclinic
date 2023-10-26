@@ -13,6 +13,10 @@ import java.util.Collection;
 
 public interface DonateRepository extends CrudRepository<Donate, Integer>{
 
+	/*
+	pouzivane metody save a deleteById jsou vestavene metody CrudRepository a neni treba je tu definovat
+	 */
+
 	@Transactional(readOnly = true)
 	@Cacheable("donates")
 	Collection<Donate> findAll() throws DataAccessException;
