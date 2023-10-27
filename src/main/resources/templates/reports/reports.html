@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
+
+<body>
+
+<h2>Reports</h2>
+<div class="row">
+  <div class="col-md-12">
+    <h5>Number of all donates</h5>
+    <p th:text="${report.numberOfDonates}"></p>
+
+    <h5>The biggest donate</h5>
+    <p th:text="${report.biggestDonate}"></p>
+
+    <h5>Number of all donates</h5>
+    <p th:text="${report.sumOfDonates}"></p>
+
+    <h5>Number of registred owners</h5>
+    <p th:text="${report.numberOfOwners}"></p>
+
+    <h2>Pet Summaries</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Pet Name</th>
+        <th>Pet Type Name</th>
+        <th>Visit Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="summary : ${petSummaries}">
+        <td th:text="${summary[0]}"></td>
+        <td th:text="${summary[1]}"></td>
+        <td th:text="${#dates.format(summary[2], 'dd-MM-yyyy')}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+</body>
+
+</html>

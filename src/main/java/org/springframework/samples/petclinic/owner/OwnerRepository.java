@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.report.Report;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -96,5 +97,19 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	@Query("SELECT owner FROM Owner owner")
 	@Transactional(readOnly = true)
 	Page<Owner> findAll(Pageable pageable);
+
+	/*
+	vrati pocet Owneru
+	 */
+	@Query("SELECT COUNT(*) FROM Owner")
+	@Transactional(readOnly = true)
+	int findNumberOfOwners();
+
+	@Query(value = "SELECT p.name AS petName, t.name AS petTypeName, v.visit_date AS visitDate " +
+		"FROM pets p " +
+		"LEFT JOIN visits v ON p.id = v.pet_id " +
+		"LEFT JOIN types t ON p.type_id = t.id",
+		nativeQuery = true)
+	List<Object[]> findPetSummaries();
 
 }

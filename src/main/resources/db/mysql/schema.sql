@@ -58,6 +58,6 @@ CREATE TABLE IF NOT EXISTS donates (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   donator_name VARCHAR(50),
   donate_date DATE,
-  amount VARCHAR(50),
+  amount INT,
   message VARCHAR(255)
 ) engine=InnoDB;

@@ -65,6 +65,11 @@
             <span>Donates</span>
           </li>
 
+          <li th:replace="~{::menuItem ('/reports.html','reports','reports','th-list','Reports')}">
+            <span class="fa fa-th-list" aria-hidden="true"></span>
+            <span>Reports</span>
+          </li>
+
           <li
             th:replace="~{::menuItem ('/oups','error','trigger a RuntimeException to see how it is handled','exclamation-triangle','Error')}">
             <span class="fa exclamation-triangle" aria-hidden="true"></span>
