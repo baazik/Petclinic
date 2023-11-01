@@ -100,15 +100,24 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 
 	/*
 	vrati pocet Owneru
-	 */
+	*/
 	@Query("SELECT COUNT(*) FROM Owner")
 	@Transactional(readOnly = true)
 	int findNumberOfOwners();
 
+	/*
+	vrati pocet Pets
+	*/
+	@Query("SELECT COUNT(*) FROM Pet")
+	@Transactional(readOnly = true)
+	int findNumberOfPets();
+
+
 	@Query(value = "SELECT p.name AS petName, t.name AS petTypeName, v.visit_date AS visitDate " +
 		"FROM pets p " +
 		"LEFT JOIN visits v ON p.id = v.pet_id " +
-		"LEFT JOIN types t ON p.type_id = t.id",
+		"LEFT JOIN types t ON p.type_id = t.id " +
+		"ORDER BY v.visit_date DESC",
 		nativeQuery = true)
 	List<Object[]> findPetSummaries();
 

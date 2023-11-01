@@ -8,31 +8,36 @@
 <div class="row">
   <div class="col-md-12">
     <h5>Number of all donates</h5>
-    <p th:text="${report.numberOfDonates}"></p>
+    <p th:text="${report.numberOfDonates}"></p><br>
 
     <h5>The biggest donate</h5>
-    <p th:text="${report.biggestDonate}"></p>
+    <p th:text="${report.biggestDonate}"></p><br>
 
-    <h5>Number of all donates</h5>
-    <p th:text="${report.sumOfDonates}"></p>
+    <h5>Sum of all donates</h5>
+    <p th:text="${report.sumOfDonates}"></p><br>
 
     <h5>Number of registred owners</h5>
-    <p th:text="${report.numberOfOwners}"></p>
+    <p th:text="${report.numberOfOwners}"></p><br>
 
-    <h2>Pet Summaries</h2>
+    <h5>Number of registred pets</h5>
+    <p th:text="${report.numberOfPets}"></p><br>
+
+    <br><br>
+
+    <h2>Pet Visits Summary</h2>
     <table>
       <thead>
       <tr>
-        <th>Pet Name</th>
-        <th>Pet Type Name</th>
-        <th>Visit Date</th>
+        <th width="200px">Pet Name</th>
+        <th width="200px">Pet Type Name</th>
+        <th width="200px">Visit Date</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="summary : ${petSummaries}">
-        <td th:text="${summary[0]}"></td>
-        <td th:text="${summary[1]}"></td>
-        <td th:text="${#dates.format(summary[2], 'dd-MM-yyyy')}"></td>
+      <tr th:each="summary : ${report.petSummaries}">
+        <td th:if="${summary[2] != null}" th:text="${summary[0]}"></td>
+        <td th:if="${summary[2] != null}" th:text="${summary[1]}"></td>
+        <td th:if="${summary[2] != null}" th:text="${#dates.format(summary[2], 'dd-MM-yyyy')}"></td>
       </tr>
       </tbody>
     </table>

@@ -26,8 +26,8 @@ public class ReportController {
 		report.setBiggestDonate(String.valueOf(donateRepository.findMaxAmount()));
 		report.setSumOfDonates(String.valueOf(donateRepository.calculateTotalAmount()));
 		report.setNumberOfOwners(String.valueOf(ownerRepository.findNumberOfOwners()));
-		List<Object[]> petSummaries = ownerRepository.findPetSummaries();
-		model.addAttribute("petSummaries", petSummaries);
+		report.setNumberOfPets(String.valueOf(ownerRepository.findNumberOfPets()));
+		report.setPetSummaries(ownerRepository.findPetSummaries());
 		model.addAttribute("report", report);
 		return "reports/reports";
 	}
